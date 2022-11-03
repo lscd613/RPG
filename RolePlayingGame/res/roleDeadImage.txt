@@ -1,0 +1,11 @@
+up
+res/102/p_102_2/p_102_2_0_03.png
+rightup
+res/102/p_102_2/p_102_2_1_03.png
+right
+res/102/p_102_2/p_102_2_2_03.png
+rightdown
+res/102/p_102_2/p_102_2_3_03.png
+down
+res/102/p_102_2/p_102_2_4_03.png
+

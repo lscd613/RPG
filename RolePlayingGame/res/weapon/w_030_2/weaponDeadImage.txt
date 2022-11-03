@@ -1,0 +1,10 @@
+up
+res/weapon/w_030_2/w_030_2_0_03.png
+rightup
+res/weapon/w_030_2/w_030_2_1_03.png
+right
+res/weapon/w_030_2/w_030_2_2_03.png
+rightdown
+res/weapon/w_030_2/w_030_2_3_03.png
+down
+res/weapon/w_030_2/w_030_2_4_03.png

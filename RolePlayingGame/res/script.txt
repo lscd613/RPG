@@ -1,0 +1,6 @@
+DIR *.*  /B >monsterStayImage.TXT
+@echo off 
+set addtext=res/monster/107/m_107_4
+(for /f "delims=" %%a in (roleStayImage.txt) do echo %addtext%%%a)>temp.txt 
+del /s/q roleStayImage.txt 
+ren temp.txt roleStayImage.txt

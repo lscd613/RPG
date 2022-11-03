@@ -1,0 +1,10 @@
+up
+res/monster/107/m_107_0/m_107_2_0_01.png
+rightup
+res/monster/107/m_107_0/m_107_2_0_01.png
+right
+res/monster/107/m_107_0/m_107_2_0_01.png
+rightdown
+res/monster/107/m_107_0/m_107_2_0_01.png
+down
+res/monster/107/m_107_0/m_107_2_0_01.png
