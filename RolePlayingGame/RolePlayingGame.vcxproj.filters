@@ -96,6 +96,9 @@
     <ClInclude Include="Package.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="EntityCreator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -177,6 +180,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Package.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityCreator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

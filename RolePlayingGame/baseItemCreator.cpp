@@ -91,6 +91,14 @@ void baseItemCreator::GetEmptyPos(int x, int y, int& total, std::vector<pair<int
 	}
 }
 
+baseItem* baseItemCreator::GetItemPointer(int handler)
+{
+	if (handler >= 0 && handler < pItems.size()) {
+		return pItems[handler];
+	}
+	return nullptr;
+}
+
 void baseItemCreator::Run(Board &b)
 {
 	Config* cfg = Config::GetInstance();
@@ -127,9 +135,10 @@ void baseItemCreator::Run(Board &b)
 			for (int i = 0; i < total; i++) {
 				Item* item = new Item(itemID, 0, vec[i].first, vec[i].second);
 				if (item) {
-					ptrCount++;
-					b.AddItem(vec[i].first, vec[i].second, item);
 					pItems.push_back(item);
+					ptrCount++;
+					int handler = (int)pItems.size() - 1;
+					b.AddItem(vec[i].first, vec[i].second, handler);
 				}	
 			}
 		}

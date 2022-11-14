@@ -23,8 +23,10 @@ private:
 	~baseItemCreator();
 	void GetAllEmptyPos(int x, int y, int total,std::vector<pair<int,int>>&, Board& b);
 	void GetEmptyPos(int x, int y, int& total, std::vector<pair<int, int>>&, Board& b);
+	
 public:
 	void Run(Board &);
+	baseItem* GetItemPointer(int handler);
 	static baseItemCreator* GetInstance() {
 		static baseItemCreator single;
 		return &single;

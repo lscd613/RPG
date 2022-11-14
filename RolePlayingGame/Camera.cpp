@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Board.h"
 #include "Data.h"
+#include "baseItemCreator.h"
 extern Data g_data;
 
 
@@ -80,10 +81,13 @@ void Camera::RenderGrid(const position& pos, Board& b)
 			if (gridX >= 0 && gridX < g_data.mapGridWidth
 				&& gridY >= 0 && gridY <= g_data.mapGridWidth * (g_data.mapGridHeight - 1)) {
 				Cell* cell = b.GetCell(gridX + gridY);
-				if (cell) {			
-					auto item = cell->GetItem();
-					if (item && cell->HasItem()) {
-						item->Render(pos.x, pos.y);
+				if (cell) {
+					auto creator = baseItemCreator::GetInstance();
+					if (creator) {
+						auto item = creator->GetItemPointer(cell->GetItem());
+						if (item && cell->HasItem()) {
+							item->Render(pos.x, pos.y);
+						}
 					}
 					auto e = cell->GetEntity();
 					if (e && cell->HasEntity()) {

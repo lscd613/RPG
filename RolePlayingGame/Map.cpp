@@ -35,12 +35,9 @@ bool Map::AddEntity(int x, int y, Entity * e)
 	return false;
 }
 
-bool Map::AddItem(int x, int y, baseItem* e)
+void Map::AddItem(int x, int y, int handle)
 {
-	if (e) {
-		return board.AddItem(x, y, e);
-	}
-	return false;
+	board.AddItem(x, y, handle);
 }
 
 void Map::LoadImg()

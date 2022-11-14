@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "Cell.h"
 #include <iostream>
-Cell::Cell(int hasE):obstacle(hasE), hEntity(0), inPath(0), locked(0), hItem(0), entity(nullptr), pItem(nullptr)
+#include "baseItemCreator.h"
+Cell::Cell(int hasE):obstacle(hasE), hEntity(0), inPath(0), locked(0), hItem(0), entity(nullptr), itemHandle(-1)
 , id(-2) 
 {
 
@@ -29,14 +30,19 @@ void Cell::SetBlocked(int val) {
 Entity* Cell::GetEntity() {
 	return entity;
 }
-baseItem* Cell::GetItem() {
-	return pItem;
+int Cell::GetItem() {
+	return itemHandle;
 }
-void Cell::AddItem(baseItem* e) {
-	if (!e || e == pItem) {
+void Cell::AddItem(int itemHandle) {
+	auto creator = baseItemCreator::GetInstance();
+	if(this->itemHandle == itemHandle || !creator) {
 		return;
 	}
-	pItem = e;
+	auto e = creator->GetItemPointer(itemHandle);
+	if (!e) {
+		return;
+	}
+	this->itemHandle = itemHandle;
 	hItem = 1;
 }
 void Cell::AddEntity(Entity* e) {
@@ -75,12 +81,12 @@ void Cell::Unlock(int _id) {
 int Cell::GetID() {
 	return id;
 }
-baseItem* Cell::Pick() {
-	baseItem* pTmp = pItem;
-	pItem = nullptr;
-	if (pTmp != nullptr) {
+int Cell::Pick() {
+	int tmp = itemHandle;
+	itemHandle = -1;
+	if (tmp != -1) {
 		std::cout << "CellÒÆ³ýÎïÆ·" << std::endl;
 	}
-	return pTmp;
+	return tmp;
 }
 

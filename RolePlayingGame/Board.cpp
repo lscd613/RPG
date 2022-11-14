@@ -88,11 +88,11 @@ bool Board::AddEntity(int x, int y, Entity * e)
 	return false;
 }
 
-bool Board::AddItem(int x, int y, baseItem* e)
+bool Board::AddItem(int x, int y, int itemHandle)
 {
 	Cell* cell = GetCell(x, y);
-	if (cell && e && !cell->HasItem()) {
-		cell->AddItem(e);
+	if (cell && !cell->HasItem()) {
+		cell->AddItem(itemHandle);
 		return true;
 	}
 	return false;

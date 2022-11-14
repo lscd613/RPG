@@ -11,13 +11,13 @@ public:
 	bool Full() {
 		return size == capacity ? true : false;
 	}
-	bool AddItem(baseItem*);
+	bool AddItem(int handle);
 	void Run(Board& b);
 	void Show();
 private:
 	Entity* _entity;
 	int size = 0;
 	int capacity = 6;
-	std::vector<baseItem*> itemsVec;
+	std::vector<int> itemsVec;
 };
 

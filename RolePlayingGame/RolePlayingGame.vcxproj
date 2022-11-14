@@ -158,6 +158,7 @@
     <ClInclude Include="CsvReader.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityCreator.h" />
     <ClInclude Include="Fight.h" />
     <ClInclude Include="FightEntity.h" />
     <ClInclude Include="Game.h" />
@@ -186,6 +187,7 @@
     <ClCompile Include="CsvReader.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityCreator.cpp" />
     <ClCompile Include="Fight.cpp" />
     <ClCompile Include="FightEntity.cpp" />
     <ClCompile Include="Game.cpp" />

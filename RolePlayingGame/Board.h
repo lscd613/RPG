@@ -21,7 +21,7 @@ public:
 	bool IsNoObstackleCell(int x, int y);
 	bool IsValidIndex(int x, int y);
 	bool AddEntity(int x, int y, Entity *e);
-	bool AddItem(int x, int y, baseItem* e);
+	bool AddItem(int x, int y, int itemHandle);
 	bool LockCell(int x, int y, int id);
 	void UnlockCell(int x, int y, int id);
 };

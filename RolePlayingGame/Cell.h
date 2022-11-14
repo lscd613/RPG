@@ -14,7 +14,7 @@ private:
 	int locked;
 	int id;
 	Entity* entity;
-	baseItem* pItem;
+	int itemHandle;
 public:
 	int inPath;
 	Cell(int hasE = 0);
@@ -25,14 +25,14 @@ public:
 	bool IsBlocked();
 	void SetBlocked(int val);
 	Entity* GetEntity();
-	baseItem* GetItem();
-	void AddItem(baseItem* e);
+	int GetItem();
+	void AddItem(int itemHandle);
 	void AddEntity(Entity* e);
 	
 	Entity*  RemoveEntity();
 	bool Lock(int _id);
 	void Unlock(int _id);
 	int GetID();
-	baseItem* Pick();
+	int Pick();
 };
 
