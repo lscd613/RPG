@@ -158,9 +158,10 @@
     <ClInclude Include="CsvReader.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityCreator.h" />
+    <ClInclude Include="FightEntityCreator.h" />
     <ClInclude Include="Fight.h" />
     <ClInclude Include="FightEntity.h" />
+    <ClInclude Include="FightEntityManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="Items.h" />
@@ -187,9 +188,10 @@
     <ClCompile Include="CsvReader.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="EntityCreator.cpp" />
+    <ClCompile Include="FightEntityCreator.cpp" />
     <ClCompile Include="Fight.cpp" />
     <ClCompile Include="FightEntity.cpp" />
+    <ClCompile Include="FightEntityManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="Items.cpp" />

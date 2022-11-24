@@ -11,7 +11,6 @@ void ImageManager::LoadSingleImg(std::string type, int id, std::string path, int
 	if (status >= 0 && status < imageMap[type][id].size()) {
 		IMAGE* img = new IMAGE;
 		if (img) {
-			ptrCount++;
 			loadimagex(*img, path.c_str());
 			imageMap[type][id][status].push_back(img);
 		}
@@ -40,7 +39,6 @@ void ImageManager::LoadOneStateImgs(std::string type, int id, std::string path, 
 					//m
 					IMAGE* img2 = new IMAGE;
 					if (img2) {
-						ptrCount++;
 						mirrorimage(*vec[size - (count - i)], *img2);
 						vec.push_back(img2);
 					}
@@ -55,7 +53,6 @@ void ImageManager::LoadOneStateImgs(std::string type, int id, std::string path, 
 		}
 		//m
 		IMAGE* img = new IMAGE;
-		ptrCount++;
 		loadimagex(*img, str.c_str());
 		imageMap[type][id][status].push_back(img);
 	}
@@ -102,12 +99,10 @@ ImageManager::~ImageManager()
 			for (auto imgVec : idIter.second) {
 				for (auto imgPtr : imgVec) {
 					SAFE_DELETE(imgPtr);
-					ptrCount--;
 				}
 			}
 		}
 	}
-	std::cout << ptrCount << std::endl;
 }
 
 std::vector<std::vector<IMAGE*>>* ImageManager::GetImage(std::string type, int id)

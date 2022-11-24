@@ -11,7 +11,7 @@ class Monster :
 	MoveAI moveAI;
 	int isSendItem = 0;
 public:	
-    Monster(int id,int typeID,int x,int y);
+    Monster(int typeID,int id,int x,int y);
     ~Monster();
 	void AutoMove(Board & b);
 	void SendItemRequest();

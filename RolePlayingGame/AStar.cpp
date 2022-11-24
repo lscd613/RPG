@@ -15,7 +15,6 @@ std::vector<pair<int,int>> AStar::GetPath(position& pos, vector<int>& target, Bo
 	if (!start) {
 		return{};
 	}
-	ptrCount++;
 	start->G = 0;
 	toSearch[{start->x, start->y}] = start;
 	//无处理节点则退出循环
@@ -52,11 +51,9 @@ std::vector<pair<int,int>> AStar::GetPath(position& pos, vector<int>& target, Bo
 			}
 			for (auto i : processed) {
 				SAFE_DELETE(i.second);
-				ptrCount--;
 			}
 			for (auto i : toSearch) {
 				SAFE_DELETE(i.second);
-				ptrCount--;
 			}
 			//返回结果
 			//cout << memCount << endl;
@@ -76,7 +73,6 @@ std::vector<pair<int,int>> AStar::GetPath(position& pos, vector<int>& target, Bo
 					Node* temp = node;
 					node = toSearch[{ node->x, node->y }];
 					SAFE_DELETE(temp);
-					ptrCount--;
 					inSearch = true;
 				}	
 				int costToNeighbour = cur->G + cur->GetDistance(node);
@@ -94,14 +90,12 @@ std::vector<pair<int,int>> AStar::GetPath(position& pos, vector<int>& target, Bo
 			}
 			else {
 				SAFE_DELETE(node);
-				ptrCount--;
 			}
 		}
 	}
 	
 	for (auto i : processed) {
 		SAFE_DELETE(i.second);
-		ptrCount--;
 	}
 	return std::vector<pair<int, int>>{};
 }
@@ -120,7 +114,6 @@ vector<AStar::Node*> AStar::Node::Neighbors()
 				break;
 			}
 			neighbors.push_back(node);
-			ptrCount++;
 		}
 	}
 	return neighbors;

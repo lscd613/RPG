@@ -15,7 +15,6 @@ void Config::LoadConfig(std::string type, const char* path)
 	if (reader) {
 		reader->Open(path);
 		configMap[type] = reader;
-		ptrCount++;
 	}
 }
 
@@ -23,6 +22,5 @@ Config::~Config()
 {
 	for (auto &cfg : configMap) {
 		SAFE_DELETE(cfg.second);
-		ptrCount--;
 	}
 }

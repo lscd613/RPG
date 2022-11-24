@@ -5,7 +5,6 @@
 extern Data g_data;
 Game::Game():role(new Role(-1))
 {
-	ptrCount++;
 	itemCreator = baseItemCreator::GetInstance();
 }
 
@@ -15,9 +14,7 @@ Game::~Game()
 	for (int i = 0; i < pFightEntities.size(); i++) 
 	{
 		SAFE_DELETE(pFightEntities[i]);
-		ptrCount--;
 	}
-	cout << "ptrCount : "<< ptrCount << endl;
 }
 
 int Game::Loop()
@@ -59,7 +56,6 @@ int Game::Init() {
 		if (!m) {
 			break;
 		}
-		ptrCount++;
 		auto pos = m->GetPos();
 		if (!map.AddEntity(pos.grid_x, pos.grid_y, m)) {
 			delete m;
@@ -90,7 +86,6 @@ void Game::RunEntities()
 			{
 				(*e)->Release(map.GetBoard());
 				SAFE_DELETE(*e);
-				ptrCount--;
 				*e = nullptr;
 				e = pFightEntities.erase(e);
 			}
@@ -117,7 +112,6 @@ void Game::CreateMonster()
 				return;
 			}
 			pFightEntities.push_back(m);
-			ptrCount++;
 		}
 	}
 }

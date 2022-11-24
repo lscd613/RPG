@@ -28,6 +28,7 @@ public:
 	int GetItem();
 	void AddItem(int itemHandle);
 	void AddEntity(Entity* e);
+	void AddEntity(int handle);
 	
 	Entity*  RemoveEntity();
 	bool Lock(int _id);

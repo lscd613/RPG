@@ -23,7 +23,6 @@ baseItemCreator::~baseItemCreator()
 {
 	for (auto &item : pItems) {
 		SAFE_DELETE(item);
-		ptrCount--;
 	}
 }
 
@@ -136,7 +135,6 @@ void baseItemCreator::Run(Board &b)
 				Item* item = new Item(itemID, 0, vec[i].first, vec[i].second);
 				if (item) {
 					pItems.push_back(item);
-					ptrCount++;
 					int handler = (int)pItems.size() - 1;
 					b.AddItem(vec[i].first, vec[i].second, handler);
 				}	

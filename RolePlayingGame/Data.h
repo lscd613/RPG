@@ -9,7 +9,6 @@
 #define STATE_NUM 4
 #define DIRECT 8
 #define SAFE_DELETE(ptr) do{delete ptr; ptr = NULL;} while(false);
-static int ptrCount = 0;
 struct Data
 {
 	int cameraBlockWidth = 3, cameraBlockHeight = 3;

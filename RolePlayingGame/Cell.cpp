@@ -53,6 +53,14 @@ void Cell::AddEntity(Entity* e) {
 	hEntity = 1;
 }
 
+void Cell::AddEntity(int hndl) {
+	/*if (!e || e == entity) {
+		return;
+	}
+	entity = e;
+	hEntity = 1;*/
+}
+
 Entity* Cell::RemoveEntity() {
 	hEntity = 0;
 	Entity* temp = entity;

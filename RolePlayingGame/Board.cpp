@@ -16,7 +16,6 @@ Board::Board()
 			file >> temp;
 			Cell *cell = new Cell(temp);
 			if (cell) {
-				ptrCount++;
 				Cells.push_back(cell);
 			}
 		}
@@ -29,7 +28,6 @@ Board::~Board()
 {
 	for (auto &cell : Cells) {
 		SAFE_DELETE(cell);
-		ptrCount--;
 	}
 }
 
@@ -83,6 +81,16 @@ bool Board::AddEntity(int x, int y, Entity * e)
 	Cell* cell = GetCell(x, y);
 	if (cell && e && !cell->HasEntity()) {
 		cell->AddEntity(e);
+		return true;
+	}
+	return false;
+}
+
+bool Board::AddEntity(int x, int y, int handle)
+{
+	Cell* cell = GetCell(x, y);
+	if (cell && !cell->HasEntity()) {
+		cell->AddEntity(handle);
 		return true;
 	}
 	return false;

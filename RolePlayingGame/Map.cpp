@@ -13,7 +13,6 @@ Map::~Map()
 	for (int i = 0; i != 9 * 9; ++i)
 	{
 		SAFE_DELETE(imgMap[i]);
-		ptrCount--;
 	}
 }
 
@@ -53,7 +52,6 @@ void Map::LoadImg()
 			if (img) {
 				loadimagex(*img, imgPath);
 				imgMap[i * 9 + j] = img;
-				ptrCount++;
 			}
 		}
 	}

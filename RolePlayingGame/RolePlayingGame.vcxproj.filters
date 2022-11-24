@@ -96,7 +96,10 @@
     <ClInclude Include="Package.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="EntityCreator.h">
+    <ClInclude Include="FightEntityCreator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FightEntityManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -182,7 +185,10 @@
     <ClCompile Include="Package.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="EntityCreator.cpp">
+    <ClCompile Include="FightEntityCreator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FightEntityManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

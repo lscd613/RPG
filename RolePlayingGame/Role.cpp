@@ -12,7 +12,6 @@ extern Data g_data;
 
 Role::Role(int id):FightEntity(id),_moveController(this),_weapon(new Weapon(-99)),_package(this)
 {
-	ptrCount++;
 	SetPos(1140, 660);
 	prop.SetWidth(50);
 	prop.SetHeight(50);
@@ -28,7 +27,6 @@ Role::~Role()
 {
 	if (_weapon) {
 		SAFE_DELETE (_weapon);
-		ptrCount--;
 	}
 	cout << "~Role()" << endl;
 }
