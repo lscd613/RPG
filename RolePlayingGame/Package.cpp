@@ -6,17 +6,14 @@ Package::Package(Entity *r = nullptr):_entity(r)
 {
 	
 }
-bool Package::AddItem(int handle)
+bool Package::AddItem(shared_ptr<baseItem> ptr)
 {
-	auto creator = baseItemCreator::GetInstance();
-	if (!creator) {
+	if (!ptr)
+		return false;
+	if (Full()) {
 		return false;
 	}
-	baseItem* tmp = creator->GetItemPointer(handle);
-	if (tmp == nullptr || Full()) {
-		return false;
-	}
-	itemsVec.push_back(handle);
+	itemsVec.push_back(ptr);
 	size++;
 	return true;
 }
@@ -37,14 +34,9 @@ void Package::Run(Board& b)
 	if (Full()) {
 		return ;
 	}
-	int itemHandle = cell->Pick();
-	auto creator = baseItemCreator::GetInstance();
-	if (!creator) {
-		return;
-	}
-	baseItem* tmp = creator->GetItemPointer(itemHandle);
-	if (tmp != nullptr) {
-		if (AddItem(itemHandle)) {
+	auto item = cell->Pick();
+	if (item != nullptr) {
+		if (AddItem(item)) {
 			std::cout << "背包拾取成功" << std::endl;
 		}
 	}
@@ -57,14 +49,11 @@ void Package::Show()
 	fillrectangle((int)(g_data.screenWidth * 0.7), (int)(g_data.screenHeight * 0.7), (int)(g_data.screenWidth * 0.95), (int)(g_data.screenHeight * 0.95));
 	int vertical = 0, space = 20;
 	for (int i = 0; i < itemsVec.size(); i++) {
-		auto creator = baseItemCreator::GetInstance();
-		if (creator) {
-			auto item = creator->GetItemPointer(itemsVec[i]);
-			if (item) {
-				outtextxy((int)(g_data.screenWidth * 0.7 + 5), (int)(g_data.screenHeight * 0.7 + 5 + vertical),
-					(std::to_string(i + 1) + ":" + item->GetName()).c_str());
-				vertical += space;
-			}
-		}	
+		auto item = itemsVec[i];
+		if (item) {
+			outtextxy((int)(g_data.screenWidth * 0.7 + 5), (int)(g_data.screenHeight * 0.7 + 5 + vertical),
+				(std::to_string(i + 1) + ":" + item->GetName()).c_str());
+			vertical += space;
+		}
 	}
 }

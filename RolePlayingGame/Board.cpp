@@ -88,7 +88,7 @@ bool Board::AddEntity(int x, int y, int handle)
 	return false;
 }
 
-bool Board::AddItem(int x, int y, int itemHandle)
+bool Board::AddItem(int x, int y, shared_ptr<baseItem> itemHandle)
 {
 	Cell* cell = GetCell(x, y);
 	if (cell && !cell->HasItem()) {

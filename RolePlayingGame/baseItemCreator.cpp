@@ -21,9 +21,7 @@ baseItemCreator::baseItemCreator()
 
 baseItemCreator::~baseItemCreator()
 {
-	for (auto &item : pItems) {
-		SAFE_DELETE(item);
-	}
+
 }
 
 int squareSum(int n) {
@@ -90,13 +88,7 @@ void baseItemCreator::GetEmptyPos(int x, int y, int& total, std::vector<pair<int
 	}
 }
 
-baseItem* baseItemCreator::GetItemPointer(int handler)
-{
-	if (handler >= 0 && handler < pItems.size()) {
-		return pItems[handler];
-	}
-	return nullptr;
-}
+
 
 void baseItemCreator::Run(Board &b)
 {
@@ -132,11 +124,9 @@ void baseItemCreator::Run(Board &b)
 			//生成物品
 			int timeIndex = GetTickCount();
 			for (int i = 0; i < total; i++) {
-				Item* item = new Item(itemID, 0, vec[i].first, vec[i].second);
+				auto item = std::make_shared<Item>(itemID, 0, vec[i].first, vec[i].second);
 				if (item) {
-					pItems.push_back(item);
-					int handler = (int)pItems.size() - 1;
-					b.AddItem(vec[i].first, vec[i].second, handler);
+					b.AddItem(vec[i].first, vec[i].second, item);
 				}	
 			}
 		}

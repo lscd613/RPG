@@ -10,7 +10,7 @@ public:
 	void LoadImg();
 	Board& GetBoard();
 	std::map<int, IMAGE*>& GetImages();
-	void AddItem(int x, int y, int handle);
+	void AddItem(int x, int y, shared_ptr<baseItem> handle);
 private:
 	Board board;
 	std::map<int, IMAGE*> imgMap;

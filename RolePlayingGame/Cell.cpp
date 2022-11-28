@@ -3,7 +3,7 @@
 #include <iostream>
 #include "baseItemCreator.h"
 #include "FightEntityCreator.h"
-Cell::Cell(int hasE):obstacle(hasE), hEntity(0), inPath(0), locked(0), hItem(0), entityHandle(-1), itemHandle(-1)
+Cell::Cell(int hasE):obstacle(hasE), hEntity(0), inPath(0), locked(0), hItem(0), entityHandle(-1)
 , id(-2) 
 {
 
@@ -31,19 +31,14 @@ void Cell::SetBlocked(int val) {
 int Cell::GetEntity() {
 	return entityHandle;
 }
-int Cell::GetItem() {
-	return itemHandle;
+shared_ptr<baseItem> Cell::GetItem() {
+	return item;
 }
-void Cell::AddItem(int itemHandle) {
-	auto creator = baseItemCreator::GetInstance();
-	if(this->itemHandle == itemHandle || !creator) {
+void Cell::AddItem(shared_ptr<baseItem> itemHandle) {
+	if(this->item == itemHandle || !itemHandle) {
 		return;
 	}
-	auto e = creator->GetItemPointer(itemHandle);
-	if (!e) {
-		return;
-	}
-	this->itemHandle = itemHandle;
+	this->item = itemHandle;
 	hItem = 1;
 }
 
@@ -86,12 +81,9 @@ void Cell::Unlock(int _id) {
 int Cell::GetID() {
 	return id;
 }
-int Cell::Pick() {
-	int tmp = itemHandle;
-	itemHandle = -1;
-	if (tmp != -1) {
-		std::cout << "CellÒÆ³ýÎïÆ·" << std::endl;
-	}
+shared_ptr<baseItem> Cell::Pick() {
+	auto tmp = item;
+	item.reset();	
 	return tmp;
 }
 

@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include "baseItem.h"
+#include <memory>
 struct itemRequest {
 	int gridX;
 	int gridY;
@@ -17,7 +18,7 @@ class baseItemCreator
 public:
 	std::queue<itemRequest> _queue;
 private:
-	std::vector<baseItem*> pItems;
+
 private:
 	baseItemCreator();
 	~baseItemCreator();
@@ -26,7 +27,7 @@ private:
 	
 public:
 	void Run(Board &);
-	baseItem* GetItemPointer(int handler);
+
 	static baseItemCreator* GetInstance() {
 		static baseItemCreator single;
 		return &single;

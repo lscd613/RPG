@@ -83,12 +83,9 @@ void Camera::RenderGrid(const position& pos, Board& b)
 				&& gridY >= 0 && gridY <= g_data.mapGridWidth * (g_data.mapGridHeight - 1)) {
 				Cell* cell = b.GetCell(gridX + gridY);
 				if (cell) {
-					auto creator = baseItemCreator::GetInstance();
-					if (creator) {
-						auto item = creator->GetItemPointer(cell->GetItem());
-						if (item && cell->HasItem()) {
-							item->Render(pos.x, pos.y);
-						}
+					auto item = cell->GetItem();
+					if (item && cell->HasItem()) {
+						item->Render(pos.x, pos.y);
 					}
 					FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
 					if (f_creator) {

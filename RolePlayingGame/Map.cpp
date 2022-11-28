@@ -27,7 +27,7 @@ std::map<int, IMAGE*>& Map::GetImages()
 }
 
 
-void Map::AddItem(int x, int y, int handle)
+void Map::AddItem(int x, int y, shared_ptr<baseItem> handle)
 {
 	board.AddItem(x, y, handle);
 }

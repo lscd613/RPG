@@ -7,6 +7,7 @@
 #include "Cell.h"
 #include "Data.h"
 #include "baseItem.h"
+#include <memory>
 extern Data g_data;
 class Board
 {
@@ -21,7 +22,7 @@ public:
 	bool IsNoObstackleCell(int x, int y);
 	bool IsValidIndex(int x, int y);
 	bool AddEntity(int x, int y, int handle);
-	bool AddItem(int x, int y, int itemHandle);
+	bool AddItem(int x, int y, shared_ptr<baseItem> itemHandle);
 	bool LockCell(int x, int y, int id);
 	void UnlockCell(int x, int y, int id);
 };

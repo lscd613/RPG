@@ -14,7 +14,7 @@ private:
 	int locked;
 	int id;
 	int entityHandle;
-	int itemHandle;
+	shared_ptr<baseItem> item;
 public:
 	int inPath;
 	Cell(int hasE = 0);
@@ -25,14 +25,14 @@ public:
 	bool IsBlocked();
 	void SetBlocked(int val);
 	int GetEntity();
-	int GetItem();
-	void AddItem(int itemHandle);
+	shared_ptr<baseItem> GetItem();
+	void AddItem(shared_ptr<baseItem> itemHandle);
 	void AddEntity(int handle);
 	
 	int  RemoveEntity();
 	bool Lock(int _id);
 	void Unlock(int _id);
 	int GetID();
-	int Pick();
+	shared_ptr<baseItem> Pick();
 };
 

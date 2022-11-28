@@ -4,6 +4,7 @@
 #include "Board.h"
 #include "common.h"
 #include "Entity.h"
+#include <memory>
 class Package
 {
 public:
@@ -11,13 +12,13 @@ public:
 	bool Full() {
 		return size == capacity ? true : false;
 	}
-	bool AddItem(int handle);
+	bool AddItem(shared_ptr<baseItem> ptr);
 	void Run(Board& b);
 	void Show();
 private:
 	Entity* _entity;
 	int size = 0;
 	int capacity = 6;
-	std::vector<int> itemsVec;
+	std::vector<shared_ptr<baseItem>> itemsVec;
 };
 
