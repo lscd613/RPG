@@ -3,8 +3,9 @@
 #include "Monster.h"
 #include "Role.h"
 
-FightEntityCreator::FightEntityCreator()
+FightEntityCreator::FightEntityCreator():ptrVec(vector<FightEntity*>(1,NULL)),index(0)
 {
+	
 }
 
 FightEntityCreator::~FightEntityCreator()
@@ -16,17 +17,53 @@ FightEntityCreator::~FightEntityCreator()
 
 int FightEntityCreator::CreateMonster(int typeID, int x, int y)
 {
-	int id = (int)ptrVec.size();
-	Monster* m = new Monster(typeID, id, x, y);
-	if (m) {
-		ptrVec.push_back(m);
-		return id;
-	}
-	return -1;
+	int handle = GetEmptyIndex();
+	Monster* m = new Monster(typeID, handle, x, y);
+	if (!m) { return -1; }
+	ptrVec[handle] = m;
+	return handle;
 }
 
-void FightEntityCreator::Run(Board&)
+int FightEntityCreator::CreateRole()
 {
+	int handle = GetEmptyIndex();
+	Role* m = new Role(handle);
+	if (!m) { return -1; }
+	ptrVec[handle] = m;
+	return handle;
+}
+
+/*
+* 从容器中获取空指针的句柄重复利用，没有可用句柄的情况下
+* 再创建新的句柄
+*/
+int FightEntityCreator::GetEmptyIndex() {
+	int tmp = index;
+	//从当前位置往后搜寻
+	while (tmp < ptrVec.size() && ptrVec[tmp] != NULL) {
+		tmp++;
+	}
+	//无可用句柄,则从头开始找
+	int hasEmpty = 0;
+	if (tmp >= ptrVec.size()) {
+		for (tmp = 0; tmp < index; tmp++) {
+			if (ptrVec[tmp] == NULL) {
+				index = tmp;
+				hasEmpty = 1;
+				break;
+			}
+		}
+		//无任何可用句柄，则扩容句柄容器
+		if (!hasEmpty) {
+			index = (int)ptrVec.size();
+			ptrVec.resize(ptrVec.size() * 2);
+		}
+	}
+	else {
+		index = tmp;
+	}
+	cout << "++句柄 ：" << index << endl;
+	return index++;
 }
 
 FightEntity* FightEntityCreator::GetPointer(int handle)
@@ -37,51 +74,12 @@ FightEntity* FightEntityCreator::GetPointer(int handle)
 	return ptrVec[handle];
 }
 
-int FightEntityCreator::ReleaseMonster(int handle)
+int FightEntityCreator::Release(int handle)
 {
 	if (handle < 0 || handle >= ptrVec.size()) {
 		return -1;
 	}
 	SAFE_DELETE(ptrVec[handle]);
+	cout << "--句柄 ：" << handle << endl;
 	return 0;
 }
-
-
-//void Game::RunEntities()
-//{
-//	for (auto e = pFightEntities.begin(); e != pFightEntities.end();)
-//	{
-//		if (*e) {
-//			if ((*e)->IsDead())
-//			{
-//				(*e)->Release(map.GetBoard());
-//				SAFE_DELETE(*e);
-//				*e = nullptr;
-//				e = pFightEntities.erase(e);
-//			}
-//			else {
-//				(*e)->Run(msg, map.GetBoard());
-//				e++;
-//			}
-//		}
-//	}
-//}
-//
-//void Game::CreateMonster()
-//{
-//	if (IsKeyDown('R')) {
-//		vector<int> posVec{ 33,17 };
-//		for (int i = 0; i < posVec.size(); i += 2) {
-//			Monster* m = new Monster(1, i, posVec[i], posVec[i + 1]);
-//			if (!m) {
-//				break;
-//			}
-//			auto pos = m->GetPos();
-//			if (!map.AddEntity(pos.grid_x, pos.grid_y, m)) {
-//				delete m;
-//				return;
-//			}
-//			pFightEntities.push_back(m);
-//		}
-//	}
-//}

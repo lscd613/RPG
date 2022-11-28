@@ -10,16 +10,16 @@ extern Data g_data;
 
 
 
-Role::Role(int id):FightEntity(id),_moveController(this),_weapon(new Weapon(-99)),_package(this)
+Role::Role(int id):FightEntity(id),_weapon(new Weapon(-99)),_package(this)
 {
 	SetPos(1140, 660);
+	_moveController = new MoveController(GetPos(), id);
 	prop.SetWidth(50);
 	prop.SetHeight(50);
 	prop.SetSpeed(4);
 	prop.SetMaxHP(100);
 	prop.SetDamage(15);
 	sprite.SetImages("role", -1);
-	_moveController.Start();
 	type = entityType::role;
 }
 
@@ -28,12 +28,14 @@ Role::~Role()
 	if (_weapon) {
 		SAFE_DELETE (_weapon);
 	}
-	cout << "~Role()" << endl;
+	if (_moveController) {
+		SAFE_DELETE(_moveController)
+	}
 }
 
 void Role::Move(MOUSEMSG& msg, Board& b)
 {
-	_moveController.Move(msg, b);
+	_moveController->Move(msg, b);
 }
 
 

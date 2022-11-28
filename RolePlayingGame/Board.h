@@ -20,7 +20,6 @@ public:
 	bool IsEmptyCell(int x, int y);
 	bool IsNoObstackleCell(int x, int y);
 	bool IsValidIndex(int x, int y);
-	bool AddEntity(int x, int y, Entity *e);
 	bool AddEntity(int x, int y, int handle);
 	bool AddItem(int x, int y, int itemHandle);
 	bool LockCell(int x, int y, int id);

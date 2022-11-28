@@ -1,6 +1,6 @@
 #pragma once
 #include "MoveBase.h"
-
+#include "Data.h"
 class MoveController
 {
 private:
@@ -15,10 +15,8 @@ public:
 	void Move(MOUSEMSG& msg, Board& b);
 	void HandleMouse(MOUSEMSG& msg, Board& b);
 	void HandleKeyboard(Board& b);
-	void Start();
 
-
-	MoveController(Entity* entity);
+	MoveController(position& pos, int handle);
 	~MoveController();
 };
 

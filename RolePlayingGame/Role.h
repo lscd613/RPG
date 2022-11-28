@@ -13,7 +13,7 @@
 class Role : public FightEntity
 {
 private:
-	MoveController _moveController;
+	MoveController *_moveController;
 	Weapon *_weapon;
 	Package _package;
 public:

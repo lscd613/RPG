@@ -140,7 +140,6 @@ void baseItemCreator::Run(Board &b)
 				}	
 			}
 		}
-		std::cout <<"змЃК"<< GetTickCount() - timeIndex2 << std::endl;
 		_queue.pop();
 	}
 }

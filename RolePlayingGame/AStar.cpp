@@ -56,7 +56,6 @@ std::vector<pair<int,int>> AStar::GetPath(position& pos, vector<int>& target, Bo
 				SAFE_DELETE(i.second);
 			}
 			//返回结果
-			//cout << memCount << endl;
 			return path;
 		}
 		//遍历cur邻居

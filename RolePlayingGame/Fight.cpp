@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "Fight.h"
 #include "Data.h"
+#include "FightEntityCreator.h"
 Fight::Fight(Entity & e) :self(e),enermy(nullptr)
 {
+	
 }
 
 void Fight::Attack(Board& b)
@@ -28,13 +30,19 @@ bool Fight::Ready(Board& b)
 		int _x = gridX + g_data.x[i];
 		int _y = gridY + g_data.y[i];
 		auto cell = b.GetCell(_x, _y);
-		if (cell && cell->HasEntity() && cell->GetEntity()
-			&& self.GetType() != cell->GetEntity()->GetType()
-			&& (cell->GetEntity()->GetType() == role || cell->GetEntity()->GetType() == monster)) {
-			enermy = cell->GetEntity();
-			self.GetStatus().moveStatus = attack;
-			self.GetProperty().direction = i;
-			return true;
+		if (cell && cell->HasEntity()){
+			FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
+			if (f_creator) {
+				auto entity = f_creator->GetPointer(cell->GetEntity());
+				if (entity
+					&& self.GetType() != entity->GetType()
+					&& (entity->GetType() == role || entity->GetType() == monster)) {
+					enermy = entity;
+					self.GetStatus().moveStatus = attack;
+					self.GetProperty().direction = i;
+					return true;
+				}	
+			}
 		}
 	}
 	return false;

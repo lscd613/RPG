@@ -16,7 +16,7 @@ protected:
 public:
 	MoveBase base;
 public:
-	MoveAI(Entity* entity);
+	MoveAI(position& pos, int handle);
 	~MoveAI();
 	void GetRandomPos(Board& b);
 	void Move(Board& b);
@@ -31,7 +31,6 @@ public:
 		}
 	}
 public:
-	virtual void Start();
 	virtual void UpdatePath(Board& b);
 	
 };

@@ -10,7 +10,6 @@ public:
 	void LoadImg();
 	Board& GetBoard();
 	std::map<int, IMAGE*>& GetImages();
-	bool AddEntity(int x, int y, Entity* e);
 	void AddItem(int x, int y, int handle);
 private:
 	Board board;

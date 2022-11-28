@@ -3,16 +3,22 @@
 #include "AStar.h"
 #include "Entity.h"
 #include <iostream>
-
-void MoveController::Move(MOUSEMSG &msg, Board &b)
+#include "FightEntityCreator.h"
+void MoveController::Move(MOUSEMSG& msg, Board& b)
 {
-	if (!base.GetEntity())
+	FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
+	if (!f_creator) {
 		return;
-
+	}
+	auto e = f_creator->GetPointer(base.GetHandle());
+	if (!e) {
+		return;
+	}
+	position& pos = e->GetPos();
 	base.UpdatePath(b);
 	HandleKeyboard(b);
 	HandleMouse(msg, b);
-	UpdateGridPos(base.GetEntity()->GetPos());
+	UpdateGridPos(pos);
 	base.MoveOneCell(b);
 }
 
@@ -20,11 +26,15 @@ void MoveController::Move(MOUSEMSG &msg, Board &b)
 
 void MoveController::HandleMouse(MOUSEMSG& msg, Board& b)
 {
-	Entity* entity = base.GetEntity();
-	if (!entity) {
+	FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
+	if (!f_creator) {
 		return;
 	}
-	position& pos = entity->GetPos();
+	auto e = f_creator->GetPointer(base.GetHandle());
+	if (!e) {
+		return;
+	}
+	position& pos = e->GetPos();
 	UpdateGridPos(pos);
 	if (base.GetLocker()) {
 		return;
@@ -70,11 +80,15 @@ void MoveController::HandleMouse(MOUSEMSG& msg, Board& b)
 
 void MoveController::HandleKeyboard(Board& b)
 {
-	Entity* entity = base.GetEntity();
-	if (!entity) {
+	FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
+	if (!f_creator) {
 		return;
 	}
-	position& pos = entity->GetPos();
+	auto e = f_creator->GetPointer(base.GetHandle());
+	if (!e) {
+		return;
+	}
+	position& pos = e->GetPos();
 	UpdateGridPos(pos);
 	if (base.GetLocker()) {
 		return;
@@ -108,19 +122,12 @@ void MoveController::HandleKeyboard(Board& b)
 	}
 }
 
-void MoveController::Start()
-{
-	base.Start();
-}
 
 
 
 
 
-
-
-
-MoveController::MoveController(Entity* e = nullptr):base(e)
+MoveController::MoveController(position& pos, int handle = -1):base(pos,handle)
 {
 	
 }

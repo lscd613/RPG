@@ -26,13 +26,6 @@ std::map<int, IMAGE*>& Map::GetImages()
 	return imgMap;
 }
 
-bool Map::AddEntity(int x, int y, Entity * e)
-{
-	if (e) {
-		return board.AddEntity(x, y, e);
-	}
-	return false;
-}
 
 void Map::AddItem(int x, int y, int handle)
 {

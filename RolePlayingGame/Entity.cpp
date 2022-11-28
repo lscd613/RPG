@@ -2,7 +2,7 @@
 #include "Entity.h"
 #include <fstream>
 #include <iostream>
-Entity::Entity(int _id):sprite(pos,stat.moveStatus,prop),id(_id) {
+Entity::Entity(int _id):sprite(pos,stat.moveStatus,prop),handle(_id) {
 	
 }
 
@@ -16,9 +16,9 @@ int Entity::GetMoveStatus()
 	return stat.moveStatus;
 }
 
-int Entity::GetID()
+int Entity::GetHandle()
 {
-	return id;
+	return handle;
 }
 
 position& Entity::GetPos()

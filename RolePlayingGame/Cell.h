@@ -13,7 +13,7 @@ private:
 	int hItem;
 	int locked;
 	int id;
-	Entity* entity;
+	int entityHandle;
 	int itemHandle;
 public:
 	int inPath;
@@ -24,13 +24,12 @@ public:
 	int Islocked();
 	bool IsBlocked();
 	void SetBlocked(int val);
-	Entity* GetEntity();
+	int GetEntity();
 	int GetItem();
 	void AddItem(int itemHandle);
-	void AddEntity(Entity* e);
 	void AddEntity(int handle);
 	
-	Entity*  RemoveEntity();
+	int  RemoveEntity();
 	bool Lock(int _id);
 	void Unlock(int _id);
 	int GetID();

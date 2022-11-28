@@ -6,7 +6,7 @@
 #include "baseItemCreator.h"
 extern Data g_data;
 
-Monster::Monster(int typeID,int id,int x, int y):FightEntity(id), moveAI(dynamic_cast<Entity*>(this))
+Monster::Monster(int typeID,int handle,int x, int y):FightEntity(handle), moveAI(nullptr)
 {
 	
 	Config* config = Config::GetInstance();
@@ -30,21 +30,22 @@ Monster::Monster(int typeID,int id,int x, int y):FightEntity(id), moveAI(dynamic
 	sprite.SetPaintIntervaltime(300);
 	sprite.SetStatOffset(std::vector<int>{ -70, -95, -160, -130 });
 	sprite.Set_yOffset(115);
-	moveAI.Start();
 	type = entityType::monster;
 	this->typeID = typeID;
-
+	moveAI = new MoveAI(GetPos(), handle);
 }
 
 
 Monster::~Monster()
 {
-	
+	if (moveAI) {
+		SAFE_DELETE(moveAI);
+	}
 }
 
 void Monster::AutoMove(Board & b)
 {
-	moveAI.Move(b);
+	moveAI->Move(b);
 }
 
 void Monster::SendItemRequest()
@@ -64,7 +65,7 @@ void Monster::Run(MOUSEMSG& msg, Board& b)
 	if (DeadJudge(b)) {
 		if (!isSendItem) {
 			SendItemRequest();
-			moveAI.UnlockNextPos(b, id);
+			moveAI->UnlockNextPos(b, handle);
 			isSendItem = 1;
 		}
 		return;
@@ -75,7 +76,7 @@ void Monster::Run(MOUSEMSG& msg, Board& b)
 
 void Monster::Release(Board& b)
 {
-	auto curPos = moveAI.base.GetPrePos();
+	auto curPos = moveAI->base.GetPrePos();
 	auto cell = b.GetCell(curPos[0], curPos[1]);
 	if (cell) {
 		cell->RemoveEntity();

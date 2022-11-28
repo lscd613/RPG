@@ -6,6 +6,7 @@
 #include "Data.h"
 #include "Role.h"
 #include "AStar.h"
+#include "FightEntityCreator.h"
 bool MoveAI::IsOutOfMovingRange(int x, int y)
 {
 	if (x >= centerX - radius && x <= centerX + radius
@@ -15,7 +16,7 @@ bool MoveAI::IsOutOfMovingRange(int x, int y)
 	return true;
 }
 
-MoveAI::MoveAI(Entity * entity) : base(entity)
+MoveAI::MoveAI(position& pos,int hdl) : base(pos, hdl),centerX(pos.grid_x),centerY(pos.grid_y)
 {
 	
 }
@@ -26,12 +27,22 @@ MoveAI::~MoveAI()
 
 void MoveAI::GetRandomPos(Board & b)
 {
-	if (!base.GetPath().empty() || base.GetEntity() == nullptr)
+	if (!base.GetPath().empty())
 		return;
 	if ((int)(GetTickCount() - timeIndex) < realInterval) {
 		return;
 	}
-	Entity* entity = base.GetEntity();
+
+	FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
+	if (!f_creator) {
+		return ;
+	}
+	auto e = f_creator->GetPointer(base.GetHandle());
+	if (!e) {
+		return ;
+	}
+	position& pos = e->GetPos();
+
 	realInterval = baseInterval + rand() % intervalRange;
 	timeIndex = GetTickCount();
 	
@@ -43,8 +54,8 @@ void MoveAI::GetRandomPos(Board & b)
 	RandVector(order, 0, (int)order.size() - 1);
 
 	//遍历找到符合要求的位置就加入path
-	auto gridX = entity->GetPos().grid_x,
-		gridY = entity->GetPos().grid_y;
+	auto gridX = pos.grid_x,
+		gridY = pos.grid_y;
 	for (auto i : order) {
 		int _x = gridX + x[i];
 		int _y = gridY + y[i];
@@ -62,22 +73,20 @@ void MoveAI::Move(Board & b)
 	base.MoveOneCell(b);
 }
 
-void MoveAI::Start()
-{
-	base.Start();
-	Entity* entity = base.GetEntity();
-	if (entity) {
-		centerX = entity->GetPos().grid_x;
-		centerY = entity->GetPos().grid_y;
-	}
-}
 
 void MoveAI::UpdatePath(Board & b)
 {
-	if (!base.GetEntity())
+	FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
+	if (!f_creator) {
 		return;
-	Entity* entity = base.GetEntity();
-	UpdateGridPos(entity->GetPos());
+	}
+	auto e = f_creator->GetPointer(base.GetHandle());
+	if (!e) {
+		return;
+	}
+	position& pos = e->GetPos();
+
+	UpdateGridPos(pos);
 	base.UpdatePath(b);
 
 	if (base.GetLocker() || !base.GetPath().empty()) {
@@ -85,20 +94,31 @@ void MoveAI::UpdatePath(Board & b)
 	}
 
 	auto &path = base.GetPath();
-	int x = entity->GetPos().grid_x;
-	int y = entity->GetPos().grid_y;
+	int x = pos.grid_x;
+	int y = pos.grid_y;
+	int stop = 0;
 	for (int i = x - attackRadius; i <= x + attackRadius; i++) {
 		for (int j = y - attackRadius; j <= y + attackRadius; j++) {
 			auto cell = b.GetCell(i, j);
 			if (cell) {
-				if (cell->HasEntity() && dynamic_cast<Role*>(cell->GetEntity()) != nullptr){
-					//点击位置合法则重新规划路线，清空path
-					vector<int> temp = { i,j };
-					base.ClearPath(b);
-					AStar astar;
-					path = astar.GetPath(entity->GetPos(), temp, b);
+				FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
+				if (f_creator) {
+					auto enermy = f_creator->GetPointer(cell->GetEntity());
+					if (cell->HasEntity() && dynamic_cast<Role*>(enermy) != nullptr) {
+						//点击位置合法则重新规划路线，清空path
+						vector<int> temp = { i,j };
+						base.ClearPath(b);
+						AStar astar;
+						path = astar.GetPath(pos, temp, b);
+						//找到立刻返回
+						stop = 1;
+						break;
+					}
 				}
 			}
+		}
+		if (stop) {
+			break;
 		}
 	}
 }

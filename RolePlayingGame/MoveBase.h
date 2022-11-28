@@ -18,18 +18,17 @@ protected:
 		{directY,direct::down} , {-directY,direct::up} ,
 		{directX + directY,direct::rightdown} , {directX - directY,direct::rightup} ,
 		{-directX + directY,direct::leftdown} , {-directX - directY,direct::leftup} };
-	Entity* entity;
+	int handle;
 
 public:
-	MoveBase(Entity* entity );
+	MoveBase(position& pos, int hdl);
 	~MoveBase();
 	void MoveOneCell(Board& b);
 	bool ReadyToMove();
 	void ClearPath(Board& b);
 	std::vector<pair<int, int>>& GetPath();
-	Entity* GetEntity();
+	int GetHandle();
 	void UpdatePath(Board& b);
-	void Start();
 	int GetLocker();
 	std::vector<int>& GetNextPos();
 	std::vector<int>& GetPrePos();

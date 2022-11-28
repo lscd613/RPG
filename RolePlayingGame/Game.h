@@ -6,22 +6,20 @@
 #include "Monster.h"
 #include <vector>
 #include "baseItemCreator.h"
+#include "FightEntityManager.h"
 class Game
 {
 private:
 	Camera camera;
 	Role *role;
-	vector<FightEntity*> pFightEntities;
 	Renderer renderer;
 	MOUSEMSG msg;
 	Map map;
 	baseItemCreator *itemCreator;
+	FightEntityManager* fightEntityManager;
 public:
 	Game();
 	~Game();
 	int Loop();
-	int Init();
-	void RunEntities();
-	void CreateMonster();
 };
 

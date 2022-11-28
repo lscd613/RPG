@@ -2,7 +2,8 @@
 #include "Cell.h"
 #include <iostream>
 #include "baseItemCreator.h"
-Cell::Cell(int hasE):obstacle(hasE), hEntity(0), inPath(0), locked(0), hItem(0), entity(nullptr), itemHandle(-1)
+#include "FightEntityCreator.h"
+Cell::Cell(int hasE):obstacle(hasE), hEntity(0), inPath(0), locked(0), hItem(0), entityHandle(-1), itemHandle(-1)
 , id(-2) 
 {
 
@@ -27,8 +28,8 @@ bool Cell::IsBlocked() {
 void Cell::SetBlocked(int val) {
 	hEntity = val;
 }
-Entity* Cell::GetEntity() {
-	return entity;
+int Cell::GetEntity() {
+	return entityHandle;
 }
 int Cell::GetItem() {
 	return itemHandle;
@@ -45,26 +46,22 @@ void Cell::AddItem(int itemHandle) {
 	this->itemHandle = itemHandle;
 	hItem = 1;
 }
-void Cell::AddEntity(Entity* e) {
-	if (!e || e == entity) {
-		return;
-	}
-	entity = e;
-	hEntity = 1;
-}
 
 void Cell::AddEntity(int hndl) {
-	/*if (!e || e == entity) {
-		return;
+	FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
+	if (f_creator) {
+		auto e = f_creator->GetPointer(hndl);
+		if (e) {
+			entityHandle = hndl;
+			hEntity = 1;
+		}
 	}
-	entity = e;
-	hEntity = 1;*/
 }
 
-Entity* Cell::RemoveEntity() {
+int Cell::RemoveEntity() {
 	hEntity = 0;
-	Entity* temp = entity;
-	entity = nullptr;
+	int temp = entityHandle;
+	entityHandle = -1;
 	return temp;
 }
 bool Cell::Lock(int _id) {

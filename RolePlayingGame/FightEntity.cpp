@@ -5,11 +5,6 @@ FightEntity::FightEntity(int id):Entity(id),fight(*this)
 {
 }
 
-void FightEntity::Run(MOUSEMSG & msg, Board & b)
-{
-	
-}
-
 
 void FightEntity::Attack(Board & b)
 {

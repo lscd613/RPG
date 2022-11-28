@@ -76,15 +76,7 @@ bool Board::IsValidIndex(int x, int y)
 	return false;
 }
 
-bool Board::AddEntity(int x, int y, Entity * e)
-{
-	Cell* cell = GetCell(x, y);
-	if (cell && e && !cell->HasEntity()) {
-		cell->AddEntity(e);
-		return true;
-	}
-	return false;
-}
+
 
 bool Board::AddEntity(int x, int y, int handle)
 {

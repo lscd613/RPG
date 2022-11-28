@@ -16,7 +16,7 @@ public:
 	bool DeadJudge(Board& b);
 	int IsDead();
 public:
-	virtual void Run(MOUSEMSG& msg, Board& b);
+	virtual void Run(MOUSEMSG& msg, Board& b) = 0;
 	virtual void Attack(Board& b);
 	virtual void Release(Board& b) = 0;
 };

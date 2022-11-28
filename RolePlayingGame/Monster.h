@@ -8,7 +8,7 @@
 class Monster :
     public FightEntity
 {
-	MoveAI moveAI;
+	MoveAI *moveAI;
 	int isSendItem = 0;
 public:	
     Monster(int typeID,int id,int x,int y);

@@ -9,19 +9,22 @@
 #include "Board.h"
 class FightEntityCreator
 {
-public:
 	
+public:
+	friend class FightEntityManager;
 private:
 	std::vector<FightEntity*> ptrVec;
+	int index;
 private:
 	FightEntityCreator();
 	~FightEntityCreator();
 
 public:
 	int CreateMonster(int typeID, int x, int y);
-	void Run(Board&);
+	int CreateRole();
+	int GetEmptyIndex();
 	FightEntity* GetPointer(int handler);
-	int ReleaseMonster(int handle);
+	int Release(int handle);
 	static FightEntityCreator* GetInstance() {
 		static FightEntityCreator single;
 		return &single;
