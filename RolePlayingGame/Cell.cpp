@@ -3,7 +3,7 @@
 #include <iostream>
 #include "baseItemCreator.h"
 #include "FightEntityCreator.h"
-Cell::Cell(int hasE):obstacle(hasE), hEntity(0), inPath(0), locked(0), hItem(0), entityHandle(-1)
+Cell::Cell(int hasE):obstacle(hasE), hEntity(0), inPath(0), locked(0), hItem(0)
 , id(-2) 
 {
 
@@ -28,8 +28,8 @@ bool Cell::IsBlocked() {
 void Cell::SetBlocked(int val) {
 	hEntity = val;
 }
-int Cell::GetEntity() {
-	return entityHandle;
+shared_ptr<Entity> Cell::GetEntity() {
+	return entityPtr;
 }
 shared_ptr<baseItem> Cell::GetItem() {
 	return item;
@@ -42,21 +42,18 @@ void Cell::AddItem(shared_ptr<baseItem> itemHandle) {
 	hItem = 1;
 }
 
-void Cell::AddEntity(int hndl) {
-	FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
-	if (f_creator) {
-		auto e = f_creator->GetPointer(hndl);
-		if (e) {
-			entityHandle = hndl;
-			hEntity = 1;
-		}
-	}
+void Cell::AddEntity(shared_ptr<Entity> &ptr) {
+	if (ptr) {
+		entityPtr = ptr;
+		hEntity = 1;
+	}		
 }
 
-int Cell::RemoveEntity() {
+shared_ptr<Entity> Cell::RemoveEntity() {
+
 	hEntity = 0;
-	int temp = entityHandle;
-	entityHandle = -1;
+	auto temp = entityPtr;
+	entityPtr.reset();
 	return temp;
 }
 bool Cell::Lock(int _id) {

@@ -16,8 +16,11 @@ Renderer::~Renderer()
 }
 
 
-void Renderer::Render(Role & role, Camera & camera, Map &map)
+void Renderer::Render(shared_ptr<Role> role, Camera & camera, Map &map)
 {
+	if (!role) {
+		return;
+	}
 	//¿ªÊ¼»æÍ¼
 	BeginBatchDraw(); 
 
@@ -25,8 +28,8 @@ void Renderer::Render(Role & role, Camera & camera, Map &map)
 	clearrectangle(0, 0, g_data.screenWidth, g_data.screenHeight);
 
 	//
-	camera.Render(map.GetImages(), role.GetPos(), map.GetBoard());
-	role.GetPackage().Show();
+	camera.Render(map.GetImages(), role->GetPos(), map.GetBoard());
+	role->GetPackage().Show();
 
 	// ½áÊø»æÍ¼
 	EndBatchDraw(); 

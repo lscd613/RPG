@@ -16,7 +16,7 @@ public:
 	void HandleMouse(MOUSEMSG& msg, Board& b);
 	void HandleKeyboard(Board& b);
 
-	MoveController(position& pos, int handle);
+	MoveController(position& pos);
 	~MoveController();
 };
 

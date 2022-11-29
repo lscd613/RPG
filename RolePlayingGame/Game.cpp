@@ -4,14 +4,10 @@
 #include "Items.h"
 #include "FightEntityCreator.h"
 extern Data g_data;
-Game::Game():role(nullptr)
+Game::Game()
 {
 	itemCreator = baseItemCreator::GetInstance();
 	fightEntityManager = new FightEntityManager(map.GetBoard());
-	FightEntityCreator* creator = FightEntityCreator::GetInstance();
-	if (creator) {
-		role = dynamic_cast<Role*>(creator->GetPointer(0));
-	}
 }
 
 
@@ -28,7 +24,7 @@ int Game::Loop()
 
 	while (true) {
 		//ESC键退出游戏
-		if (IsKeyDown(VK_ESCAPE)) {
+		if (IsKeyDown(VK_ESCAPE) || !fightEntityManager->GetRole()) {
 			return 0;
 		}
 		//处理逻辑
@@ -41,9 +37,7 @@ int Game::Loop()
 		}
 		
 		//绘图
-		if (role) {
-			renderer.Render(*role, camera, map);
-		}
+		renderer.Render(fightEntityManager->GetRole(), camera, map);
 		Sleep(15);
 	}
 	//关闭窗口

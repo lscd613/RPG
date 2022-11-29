@@ -13,7 +13,7 @@ extern Data g_data;
 Role::Role(int id):FightEntity(id),_weapon(new Weapon(-99)),_package(this)
 {
 	SetPos(1140, 660);
-	_moveController = new MoveController(GetPos(), id);
+	_moveController = new MoveController(GetPos());
 	prop.SetWidth(50);
 	prop.SetHeight(50);
 	prop.SetSpeed(4);
@@ -31,6 +31,7 @@ Role::~Role()
 	if (_moveController) {
 		SAFE_DELETE(_moveController)
 	}
+	cout << "~role()" << endl;
 }
 
 void Role::Move(MOUSEMSG& msg, Board& b)
@@ -79,4 +80,9 @@ void Role::Release(Board& b)
 	if (cell) {
 		cell->RemoveEntity();
 	}
+}
+
+void Role::SetEntity(shared_ptr<Entity> e)
+{
+	_moveController->base.SetEntity(e);
 }

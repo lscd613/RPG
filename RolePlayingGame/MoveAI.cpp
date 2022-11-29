@@ -16,7 +16,7 @@ bool MoveAI::IsOutOfMovingRange(int x, int y)
 	return true;
 }
 
-MoveAI::MoveAI(position& pos,int hdl) : base(pos, hdl),centerX(pos.grid_x),centerY(pos.grid_y)
+MoveAI::MoveAI(position& pos) : base(pos),centerX(pos.grid_x),centerY(pos.grid_y)
 {
 	
 }
@@ -33,11 +33,7 @@ void MoveAI::GetRandomPos(Board & b)
 		return;
 	}
 
-	FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
-	if (!f_creator) {
-		return ;
-	}
-	auto e = f_creator->GetPointer(base.GetHandle());
+	auto e = base.GetEntity();
 	if (!e) {
 		return ;
 	}
@@ -76,11 +72,8 @@ void MoveAI::Move(Board & b)
 
 void MoveAI::UpdatePath(Board & b)
 {
-	FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
-	if (!f_creator) {
-		return;
-	}
-	auto e = f_creator->GetPointer(base.GetHandle());
+
+	auto e = base.GetEntity();
 	if (!e) {
 		return;
 	}
@@ -102,18 +95,16 @@ void MoveAI::UpdatePath(Board & b)
 			auto cell = b.GetCell(i, j);
 			if (cell) {
 				FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
-				if (f_creator) {
-					auto enermy = f_creator->GetPointer(cell->GetEntity());
-					if (cell->HasEntity() && dynamic_cast<Role*>(enermy) != nullptr) {
-						//点击位置合法则重新规划路线，清空path
-						vector<int> temp = { i,j };
-						base.ClearPath(b);
-						AStar astar;
-						path = astar.GetPath(pos, temp, b);
-						//找到立刻返回
-						stop = 1;
-						break;
-					}
+				auto enermy = cell->GetEntity();
+				if (cell->HasEntity() && enermy->GetType() == role) {
+					//点击位置合法则重新规划路线，清空path
+					vector<int> temp = { i,j };
+					base.ClearPath(b);
+					AStar astar;
+					path = astar.GetPath(pos, temp, b);
+					//找到立刻返回
+					stop = 1;
+					break;
 				}
 			}
 		}

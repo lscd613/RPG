@@ -13,11 +13,12 @@
 class Role : public FightEntity
 {
 private:
-	MoveController *_moveController;
+	
 	Weapon *_weapon;
 	Package _package;
+	MoveController* _moveController;
 public:
-
+	
 public:
 	Role(int id);
 	~Role();
@@ -28,5 +29,6 @@ public:
 	virtual void Render(int centerX, int centerY);
 	virtual void Run(MOUSEMSG& msg, Board& b);
 	virtual void Release(Board& b);
+	void SetEntity(shared_ptr<Entity> e);
 };
 

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "MoveBase.h"
 #include "FightEntityCreator.h"
-MoveBase::MoveBase(position& pos, int hdl = -1):handle(hdl)
+MoveBase::MoveBase(position& pos)
 {
 	moveLocker = 0;
 	prePos[0] = nextPos[0] = pos.grid_x;
@@ -20,13 +20,13 @@ void MoveBase::MoveOneCell(Board& b)
 	if (!f_creator) {
 		return;
 	}
-	auto e = f_creator->GetPointer(handle);
-	if (!e) {
+	auto _entity = e.lock();
+	if (!_entity) {
 		return;
 	}
-	position& pos = e->GetPos();
-	status& stat = e->GetStatus();
-	property& prop = e->GetProperty();
+	position& pos = _entity->GetPos();
+	status& stat = _entity->GetStatus();
+	property& prop = _entity->GetProperty();
 
 	int deltaX = (int)((nextPos[0] + 1 / 2.0) * ::g_data.gridWidth - pos.x);
 	int deltaY = (int)((nextPos[1] + 1 / 2.0) * ::g_data.gridHeight - pos.y);
@@ -53,15 +53,11 @@ void MoveBase::MoveOneCell(Board& b)
 }
 
 bool MoveBase::ReadyToMove() {
-	FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
-	if (!f_creator) {
+	auto _entity = e.lock();
+	if (!_entity) {
 		return false;
 	}
-	auto e = f_creator->GetPointer(handle);
-	if (!e) {
-		return false;
-	}
-	position& pos = e->GetPos();
+	position& pos = _entity->GetPos();
 	return pos.x == (nextPos[0] + 1 / 2.0) * g_data.gridWidth
 		&& pos.y == (nextPos[1] + 1 / 2.0) * g_data.gridHeight;
 }
@@ -76,7 +72,11 @@ void MoveBase::ClearPath(Board& b)
 		}
 		
 	}
-	b.UnlockCell(nextPos[0], nextPos[1],handle);
+	auto _entity = e.lock();
+	if (!_entity) {
+		return;
+	}
+	b.UnlockCell(nextPos[0], nextPos[1],_entity->GetID());
 	path.clear();
 }
 
@@ -85,9 +85,10 @@ std::vector<pair<int, int>>& MoveBase::GetPath()
 	return path;
 }
 
-int MoveBase::GetHandle()
+shared_ptr<Entity> MoveBase::GetEntity()
 {
-	return handle;
+	auto _entity = e.lock();
+	return _entity;
 }
 
 
@@ -112,11 +113,11 @@ void MoveBase::UpdatePath(Board& b) {
 	if (!f_creator) {
 		return;
 	}
-	auto e = f_creator->GetPointer(handle);
-	if (!e) {
+	auto _entity = e.lock();
+	if (!_entity) {
 		return;
 	}
-	position& pos = e->GetPos();
+	position& pos = _entity->GetPos();
 	//保证单格移动原子性
 	if (ReadyToMove()) {
 		if (!path.empty()) {
@@ -137,7 +138,7 @@ void MoveBase::UpdatePath(Board& b) {
 						
 				curCell->inPath = 0;
 				path.pop_back();
-				b.UnlockCell(nextPos[0], nextPos[1],handle);
+				b.UnlockCell(nextPos[0], nextPos[1], _entity->GetID());
 				//prePos指向当前位置
 				prePos[0] = nextPos[0];
 				prePos[1] = nextPos[1];
@@ -157,8 +158,7 @@ void MoveBase::UpdatePath(Board& b) {
 		//人物移入当前格
 		Cell* cell = b.GetCell(prePos[0], prePos[1]);
 		if (cell && !cell->HasEntity()) {
-			cell->AddEntity(handle);
-			
+			cell->AddEntity(_entity);	
 		}
 	}
 	//未完成单格移动时，不会被其他键鼠操作打断
@@ -170,11 +170,16 @@ void MoveBase::UpdatePath(Board& b) {
 	auto cell = b.GetCell(nextPos[0], nextPos[1]);
 	//下一步为非法位置则停止在当前位置
 	if (cell && !b.IsEmptyCell(nextPos[0], nextPos[1])
-		|| (!b.LockCell(nextPos[0], nextPos[1], handle)
+		|| (!b.LockCell(nextPos[0], nextPos[1], _entity->GetID())
 		&& cell->Islocked() )) {
 		ClearPath(b);
 		nextPos[0] = prePos[0];
 		nextPos[1] = prePos[1];
 	}
 
+}
+
+void MoveBase::SetEntity(shared_ptr<Entity> e)
+{
+	this->e = e;
 }

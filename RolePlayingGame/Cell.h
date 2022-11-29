@@ -13,7 +13,7 @@ private:
 	int hItem;
 	int locked;
 	int id;
-	int entityHandle;
+	shared_ptr<Entity> entityPtr;
 	shared_ptr<baseItem> item;
 public:
 	int inPath;
@@ -24,12 +24,12 @@ public:
 	int Islocked();
 	bool IsBlocked();
 	void SetBlocked(int val);
-	int GetEntity();
+	shared_ptr<Entity> GetEntity();
 	shared_ptr<baseItem> GetItem();
 	void AddItem(shared_ptr<baseItem> itemHandle);
-	void AddEntity(int handle);
+	void AddEntity(shared_ptr<Entity> &ptr);
 	
-	int  RemoveEntity();
+	shared_ptr<Entity>  RemoveEntity();
 	bool Lock(int _id);
 	void Unlock(int _id);
 	int GetID();

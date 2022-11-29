@@ -16,7 +16,7 @@ protected:
 public:
 	MoveBase base;
 public:
-	MoveAI(position& pos, int handle);
+	MoveAI(position& pos);
 	~MoveAI();
 	void GetRandomPos(Board& b);
 	void Move(Board& b);

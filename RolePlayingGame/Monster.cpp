@@ -32,7 +32,7 @@ Monster::Monster(int typeID,int handle,int x, int y):FightEntity(handle), moveAI
 	sprite.Set_yOffset(115);
 	type = entityType::monster;
 	this->typeID = typeID;
-	moveAI = new MoveAI(GetPos(), handle);
+	moveAI = new MoveAI(GetPos());
 }
 
 
@@ -41,6 +41,7 @@ Monster::~Monster()
 	if (moveAI) {
 		SAFE_DELETE(moveAI);
 	}
+	cout << "Monster::~Monster()" << endl;
 }
 
 void Monster::AutoMove(Board & b)
@@ -65,7 +66,7 @@ void Monster::Run(MOUSEMSG& msg, Board& b)
 	if (DeadJudge(b)) {
 		if (!isSendItem) {
 			SendItemRequest();
-			moveAI->UnlockNextPos(b, handle);
+			moveAI->UnlockNextPos(b, id);
 			isSendItem = 1;
 		}
 		return;
@@ -81,6 +82,11 @@ void Monster::Release(Board& b)
 	if (cell) {
 		cell->RemoveEntity();
 	}
+}
+
+void Monster::SetEntity(shared_ptr<Entity> e)
+{
+	moveAI->base.SetEntity(e);
 }
 
 

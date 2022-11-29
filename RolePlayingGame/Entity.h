@@ -17,8 +17,8 @@ protected:
 	property prop;
 	status stat;
 	Sprite sprite;
-	entityType type = entityType::role;
-	int handle;
+	entityType type;
+	int id;
 	int typeID;
 	std::string name = "-";
 protected:
@@ -30,7 +30,7 @@ public:
 
 public:
 	int GetMoveStatus();//获取角色移动状态
-	int GetHandle();
+	int GetID();
 	position& GetPos();
 	property& GetProperty();
 	status& GetStatus();

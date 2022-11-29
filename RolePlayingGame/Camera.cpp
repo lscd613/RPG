@@ -87,12 +87,9 @@ void Camera::RenderGrid(const position& pos, Board& b)
 					if (item && cell->HasItem()) {
 						item->Render(pos.x, pos.y);
 					}
-					FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
-					if (f_creator) {
-						auto e = f_creator->GetPointer(cell->GetEntity());
-						if (e && cell->HasEntity()) {
-							e->Render(pos.x, pos.y);
-						}
+					auto e = cell->GetEntity();
+					if (e && cell->HasEntity()) {
+						e->Render(pos.x, pos.y);
 					}
 				}
 			}

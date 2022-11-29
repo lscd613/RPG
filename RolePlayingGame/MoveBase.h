@@ -5,6 +5,7 @@
 #include "Board.h"
 #include "common.h"
 #include "Data.h"
+#include <memory>
 class MoveBase
 {
 protected:
@@ -18,17 +19,19 @@ protected:
 		{directY,direct::down} , {-directY,direct::up} ,
 		{directX + directY,direct::rightdown} , {directX - directY,direct::rightup} ,
 		{-directX + directY,direct::leftdown} , {-directX - directY,direct::leftup} };
-	int handle;
-
+	 
+	std::weak_ptr<Entity> e;
 public:
-	MoveBase(position& pos, int hdl);
+	
+	MoveBase(position& pos);
 	~MoveBase();
 	void MoveOneCell(Board& b);
 	bool ReadyToMove();
 	void ClearPath(Board& b);
 	std::vector<pair<int, int>>& GetPath();
-	int GetHandle();
+	shared_ptr<Entity> GetEntity();
 	void UpdatePath(Board& b);
+	void SetEntity(shared_ptr<Entity>);
 	int GetLocker();
 	std::vector<int>& GetNextPos();
 	std::vector<int>& GetPrePos();

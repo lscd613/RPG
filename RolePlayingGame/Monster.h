@@ -18,5 +18,6 @@ public:
 public:
 	virtual void Run(MOUSEMSG& msg, Board& b);
 	virtual void Release(Board& b);
+	void SetEntity(shared_ptr<Entity>);
 };
 

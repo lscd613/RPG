@@ -78,11 +78,11 @@ bool Board::IsValidIndex(int x, int y)
 
 
 
-bool Board::AddEntity(int x, int y, int handle)
+bool Board::AddEntity(int x, int y, shared_ptr<Entity> ptr)
 {
 	Cell* cell = GetCell(x, y);
 	if (cell && !cell->HasEntity()) {
-		cell->AddEntity(handle);
+		cell->AddEntity(ptr);
 		return true;
 	}
 	return false;

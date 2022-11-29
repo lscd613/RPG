@@ -6,11 +6,8 @@
 #include "FightEntityCreator.h"
 void MoveController::Move(MOUSEMSG& msg, Board& b)
 {
-	FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
-	if (!f_creator) {
-		return;
-	}
-	auto e = f_creator->GetPointer(base.GetHandle());
+
+	auto e = base.GetEntity();
 	if (!e) {
 		return;
 	}
@@ -26,11 +23,7 @@ void MoveController::Move(MOUSEMSG& msg, Board& b)
 
 void MoveController::HandleMouse(MOUSEMSG& msg, Board& b)
 {
-	FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
-	if (!f_creator) {
-		return;
-	}
-	auto e = f_creator->GetPointer(base.GetHandle());
+	auto e = base.GetEntity();
 	if (!e) {
 		return;
 	}
@@ -80,11 +73,7 @@ void MoveController::HandleMouse(MOUSEMSG& msg, Board& b)
 
 void MoveController::HandleKeyboard(Board& b)
 {
-	FightEntityCreator* f_creator = FightEntityCreator::GetInstance();
-	if (!f_creator) {
-		return;
-	}
-	auto e = f_creator->GetPointer(base.GetHandle());
+	auto e = base.GetEntity();
 	if (!e) {
 		return;
 	}
@@ -127,11 +116,12 @@ void MoveController::HandleKeyboard(Board& b)
 
 
 
-MoveController::MoveController(position& pos, int handle = -1):base(pos,handle)
+MoveController::MoveController(position& pos):base(pos)
 {
 	
 }
 
 MoveController::~MoveController()
 {
+
 }

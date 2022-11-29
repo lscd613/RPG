@@ -11,7 +11,6 @@ class Game
 {
 private:
 	Camera camera;
-	Role *role;
 	Renderer renderer;
 	MOUSEMSG msg;
 	Map map;

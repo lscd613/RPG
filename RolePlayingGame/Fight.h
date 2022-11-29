@@ -3,7 +3,7 @@
 #include "Board.h"
 class Fight
 {
-	Entity *enermy;
+	weak_ptr<Entity> enermy;
 	Entity& self;
 	decltype(GetTickCount()) timeIndex = GetTickCount();
 	int attackInterval = 800;
@@ -11,7 +11,6 @@ public:
 	Fight(Entity&);
 	void Attack(Board&);
 	bool Ready(Board&);
-	void SetEnermy(Entity *);
 
 };
 
